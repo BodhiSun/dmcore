@@ -53,10 +53,12 @@ public class DownloadService extends Service {
     private void registerPackageReceiver() {
         //8.0注册安装广播
         packageChangeReceiver = new PackageChangeReceiver();
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addDataScheme("package");
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
         intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+
         registerReceiver(packageChangeReceiver,intentFilter);
     }
 
@@ -83,7 +85,7 @@ public class DownloadService extends Service {
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(info.getApkUrl()));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-        request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_DOWNLOADS,info.getName().equals("")?"暂无名称"+"":info.getName()+".apk");
+        request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_DOWNLOADS,(info.getName().equals("")?"暂无名称"+"":info.getName())+".apk");
         request.setVisibleInDownloadsUi(true);
         //将下载请求放入队列， return下载任务的ID
         long id = downloadManager.enqueue(request);
@@ -118,7 +120,8 @@ public class DownloadService extends Service {
                         startDownload(DownloadCore.getInstance().getDownloadInfo((String)msg.obj));
                         break;
                     case WHAT_INSTALL:
-                        installApk(DownloadCore.getInstance().getDownloadInfo((String)msg.obj));
+//                        installApk(DownloadCore.getInstance().getDownloadInfo((String)msg.obj));
+                        installApkWithFileProvider(DownloadCore.getInstance().getDownloadInfo((String)msg.obj));
                         break;
                 }
             }
@@ -137,9 +140,10 @@ public class DownloadService extends Service {
         try{
             intent.setDataAndType(apkUri,typeStr);
             startActivity(intent);
+            info.installStart();
         }catch (Exception e){
 
-            File apk = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/" + (info.getName().equals("")?"暂无名称"+"":info.getName()+".apk"));
+            File apk = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/" + ((info.getName().equals("")?"暂无名称"+"":info.getName())+".apk"));
             if(apk!=null){
                 String apkPath = apk.getAbsolutePath();
                 apkUri = Uri.parse("file://" + apkPath);
@@ -147,6 +151,7 @@ public class DownloadService extends Service {
 
             intent.setDataAndType(apkUri,typeStr);
             startActivity(intent);
+            info.installStart();
         }
     }
 

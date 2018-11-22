@@ -194,11 +194,13 @@ public class DownLoadManagerUtil {
         Log.i("test","apkUri:"+apkUri);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         String typeStr="application/vnd.android.package-archive";
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try{
+            Log.i("test","installApk-------apkUri----------");
             intent.setDataAndType(apkUri,typeStr);
             mContext.startActivity(intent);
         }catch (Exception e){
+            Log.i("test","installApk-------apk----------");
             File apk = mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS + "/" + name);
             if(apk!=null){
                 String apkPath = apk.getAbsolutePath();

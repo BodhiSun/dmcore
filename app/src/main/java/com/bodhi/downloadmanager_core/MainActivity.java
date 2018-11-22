@@ -1,5 +1,9 @@
 package com.bodhi.downloadmanager_core;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +17,8 @@ import com.bodhi.download_lib.DownloadInfo;
 import com.bodhi.download_lib.DownloadListener;
 
 public class MainActivity extends AppCompatActivity {
-    public static String url="http://down.jser123.com/app-debug-v3.0.1_301_2_yyb_sign.apk";
+//    public static String url="http://down.jser123.com/app-debug-v3.0.1_301_2_yyb_sign.apk";
+    public static String url="http://down.jser123.com/bktt_release_v2.0.2_202_3__DEFAULT___sign.apk";
     private TextView tv_down_status;
 
     @Override
@@ -23,6 +28,16 @@ public class MainActivity extends AppCompatActivity {
         tv_down_status=findViewById(R.id.tv);
 
         DownloadCore.getInstance().init(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            boolean b = getPackageManager().canRequestPackageInstalls();
+            if (!b) {
+                Uri packageURI = Uri.parse("package:" + getPackageName());
+                //注意这个是8.0新API
+                Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+                startActivityForResult(intent, 10086);
+            }
+        }
     }
 
     public void testDownloadCore(View view) {
@@ -113,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        downLoadManagerUtil2.downloadAPK(MainActivity.url,System.currentTimeMillis()+"测试安装包.apk");
+//        downLoadManagerUtil2.downloadAPK(MainActivity.url,System.currentTimeMillis()+"测试安装包.apk");
+        downLoadManagerUtil2.downloadAPK(MainActivity.url,"abc.apk");
     }
 }
