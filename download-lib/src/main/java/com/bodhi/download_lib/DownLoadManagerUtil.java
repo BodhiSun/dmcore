@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @author : Sun
  * @version :
  * create time : 2018/7/13 15:47
- * desc :DownloadManager下载任务，用ContentObserver监听下载进度,实现下载并自动安装功能
+ * desc :DownloadManager下载任务，用ContentObserver监听下载进度,实现下载并自动安装功能，安装apk采用DownloadManager的uri方式，会有部分手机安装失败
  */
 public class DownLoadManagerUtil {
     public static final int HANDLE_DOWNLOAD = 0x001;

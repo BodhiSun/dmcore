@@ -16,7 +16,7 @@ import java.util.Set;
  * @author : Sun
  * @version : 1.0
  * create time : 2018/11/21 17:23
- * desc :DownloadManager下载任务，用timer轮询监听下载进度,实现下载自动安装，并带有下载状态和安装状态的回调功能
+ * desc :DownloadManager下载任务，用timer轮询监听下载进度,实现下载自动安装，并带有下载状态和安装状态的回调功能,安装apk采用fileprovider方式
  */
 public class DownloadCore {
 
