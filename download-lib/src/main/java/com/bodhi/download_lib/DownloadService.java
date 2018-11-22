@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -41,6 +42,23 @@ public class DownloadService extends Service {
     private DownloadManager downloadManager;
 
     private Handler downloadHandler;
+    private PackageChangeReceiver packageChangeReceiver;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        registerPackageReceiver();
+    }
+
+    private void registerPackageReceiver() {
+        //8.0注册安装广播
+        packageChangeReceiver = new PackageChangeReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addDataScheme("package");
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        registerReceiver(packageChangeReceiver,intentFilter);
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -79,6 +97,7 @@ public class DownloadService extends Service {
             downloadHandler.removeCallbacksAndMessages(null);
             downloadHandler=null;
         }
+        unregisterReceiver(packageChangeReceiver);
     }
 
     @Nullable
