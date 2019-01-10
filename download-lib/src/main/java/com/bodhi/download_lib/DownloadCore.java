@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.text.TextUtils;
 
+import com.bodhi.http.HttpCore;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +49,7 @@ public class DownloadCore {
         this.appContext = context;
 
         //初始化网络请求框架
+        HttpCore.getInstance().init(context);
     }
 
     public void start(DownloadInfo downloadInfo, DownloadDuplicateListener duplicateListener) {

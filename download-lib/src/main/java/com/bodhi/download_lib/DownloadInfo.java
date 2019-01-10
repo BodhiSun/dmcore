@@ -1,5 +1,8 @@
 package com.bodhi.download_lib;
 
+import com.bodhi.http.HttpCore;
+import com.bodhi.http.exception.URLNullException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -126,8 +129,13 @@ public class DownloadInfo {
             downloadListener.onStart();
         }
 
-        for (String installReport : installReports) {
+        for (String installReport : startReports) {
             //上报开始下载
+            try {
+                HttpCore.getInstance().get(installReport);
+            } catch (URLNullException e) {
+                e.printStackTrace();
+            }
         }
 
         startTimer();
@@ -154,8 +162,13 @@ public class DownloadInfo {
             downloadListener.onComplete();
         }
 
-        for (String installReport : installReports) {
+        for (String installReport : completeReports) {
             //上报下载完成
+            try {
+                HttpCore.getInstance().get(installReport);
+            } catch (URLNullException e) {
+                e.printStackTrace();
+            }
         }
 
         cancelTimer();
@@ -176,6 +189,11 @@ public class DownloadInfo {
 
         for (String installReport : installReports) {
             //上报安装完成
+            try {
+                HttpCore.getInstance().get(installReport);
+            } catch (URLNullException e) {
+                e.printStackTrace();
+            }
         }
     }
 

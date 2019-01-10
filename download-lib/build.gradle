@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 101
+        versionName "1.0.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -32,6 +32,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //网络请求相关模块(基于OkHttp)
+    implementation('com.bodhi.httpcore:httpcore:1.0.0') {
+        exclude group: 'com.android.support'
+    }
 }
 
 repositories {
@@ -81,7 +86,7 @@ publish {
     userOrg = 'bodhisun'           //bintray.com 注册的用户名
     groupId = 'com.bodhi.dmcore'   //以后访问 jcenter上此项目的路径，一般和库项目的包名一致
     artifactId = 'dmcore'       //bintray.com 创建的 Package 名
-    publishVersion = '1.0.0'         //版本号
+    publishVersion = '1.0.1'         //版本号
     desc = 'downloadmanager util' //版本说明，随意
     website = 'https://github.com/SunshineNumber1/dmcore'    //关于这个开源项目的网站，随意
 }

@@ -91,6 +91,8 @@ public class DownloadService extends Service {
         long id = downloadManager.enqueue(request);
         info.downloadStart(id);
 
+        Toast.makeText(this, "开始下载...", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
